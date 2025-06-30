@@ -1,12 +1,17 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import VideoPlayer from '@/components/VideoPlayer';
 
 const Index = () => {
+  // You can replace this with your actual video URL
+  // For now, using a placeholder - you'll need to host your MP4 file
+  const videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+  
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="w-full h-screen">
+      <VideoPlayer 
+        src={videoUrl}
+        title="24/7 Video Stream"
+      />
     </div>
   );
 };
