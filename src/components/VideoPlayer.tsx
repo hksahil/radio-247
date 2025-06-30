@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Play, Pause, Rewind, FastForward } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -16,10 +15,14 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
   const [duration, setDuration] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [controlsTimeout, setControlsTimeout] = useState<NodeJS.Timeout | null>(null);
+  const [videoError, setVideoError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
+
+    console.log('Video source:', src);
 
     const updateProgress = () => {
       setCurrentTime(video.currentTime);
@@ -27,18 +30,43 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
 
     const updateDuration = () => {
       setDuration(video.duration);
+      setIsLoading(false);
+      console.log('Video loaded, duration:', video.duration);
+    };
+
+    const handleError = (e: Event) => {
+      console.error('Video error:', e);
+      setVideoError('Failed to load video. Please check the video URL.');
+      setIsLoading(false);
+    };
+
+    const handleLoadStart = () => {
+      console.log('Video loading started');
+      setIsLoading(true);
+      setVideoError(null);
+    };
+
+    const handleCanPlay = () => {
+      console.log('Video can play');
+      setIsLoading(false);
     };
 
     video.addEventListener('timeupdate', updateProgress);
     video.addEventListener('loadedmetadata', updateDuration);
     video.addEventListener('ended', () => setIsPlaying(false));
+    video.addEventListener('error', handleError);
+    video.addEventListener('loadstart', handleLoadStart);
+    video.addEventListener('canplay', handleCanPlay);
 
     return () => {
       video.removeEventListener('timeupdate', updateProgress);
       video.removeEventListener('loadedmetadata', updateDuration);
       video.removeEventListener('ended', () => setIsPlaying(false));
+      video.removeEventListener('error', handleError);
+      video.removeEventListener('loadstart', handleLoadStart);
+      video.removeEventListener('canplay', handleCanPlay);
     };
-  }, []);
+  }, [src]);
 
   const togglePlay = () => {
     const video = videoRef.current;
@@ -47,7 +75,10 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
     if (isPlaying) {
       video.pause();
     } else {
-      video.play();
+      video.play().catch(e => {
+        console.error('Play failed:', e);
+        setVideoError('Failed to play video');
+      });
     }
     setIsPlaying(!isPlaying);
   };
@@ -113,9 +144,29 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
         className="w-full h-full object-cover"
         loop
         playsInline
+        preload="metadata"
+        crossOrigin="anonymous"
         onClick={togglePlay}
       />
       
+      {/* Loading indicator */}
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/50">
+          <div className="text-white text-lg">Loading video...</div>
+        </div>
+      )}
+
+      {/* Error message */}
+      {videoError && (
+        <div className="absolute inset-0 flex items-center justify-center bg-black/80">
+          <div className="text-white text-center p-4">
+            <div className="text-lg mb-2">Video Error</div>
+            <div className="text-sm">{videoError}</div>
+            <div className="text-xs mt-2 opacity-70">URL: {src}</div>
+          </div>
+        </div>
+      )}
+
       {/* Controls Overlay */}
       <div 
         className={`absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 transition-opacity duration-300 ${
