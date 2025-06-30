@@ -59,13 +59,86 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
         frameBorder="0"
       />
       
-      {/* Audio Only Overlay */}
+      {/* Lofi Cyberpunk Visual Overlay */}
       {audioOnly && (
-        <div className="absolute inset-0 bg-black flex items-center justify-center">
-          <div className="text-center text-white">
-            <Volume className="w-24 h-24 mx-auto mb-4 opacity-50" />
-            <h2 className="text-2xl font-semibold mb-2">{title}</h2>
-            <p className="text-gray-400">Audio Only Mode</p>
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-pink-800 to-cyan-900 flex items-center justify-center overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0">
+            {/* Neon Grid */}
+            <div className="absolute inset-0 opacity-20">
+              <div className="w-full h-full" style={{
+                backgroundImage: `
+                  linear-gradient(cyan 1px, transparent 1px),
+                  linear-gradient(90deg, cyan 1px, transparent 1px)
+                `,
+                backgroundSize: '50px 50px',
+                animation: 'pulse 4s ease-in-out infinite'
+              }}></div>
+            </div>
+            
+            {/* Floating Geometric Shapes */}
+            <div className="absolute top-20 left-20 w-4 h-4 bg-pink-400 opacity-60 animate-bounce" style={{ animationDelay: '0s' }}></div>
+            <div className="absolute top-40 right-32 w-6 h-6 bg-cyan-400 opacity-60 animate-bounce" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute bottom-32 left-40 w-3 h-3 bg-purple-400 opacity-60 animate-bounce" style={{ animationDelay: '2s' }}></div>
+            <div className="absolute bottom-20 right-20 w-5 h-5 bg-pink-300 opacity-60 animate-bounce" style={{ animationDelay: '0.5s' }}></div>
+            
+            {/* Scanning Lines */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent h-8 animate-pulse" style={{
+              animation: 'scan 3s linear infinite'
+            }}></div>
+          </div>
+          
+          {/* Main Content */}
+          <div className="relative z-10 text-center text-white">
+            {/* Cyberpunk Cat ASCII Art */}
+            <div className="mb-8 font-mono text-pink-300 text-lg leading-tight filter drop-shadow-lg">
+              <pre className="animate-pulse">
+{`    /\\_/\\  
+   ( o.o ) 
+    > ^ <`}
+              </pre>
+            </div>
+            
+            {/* Neon Cat Emoji with Glow Effect */}
+            <div className="text-8xl mb-6 animate-bounce" style={{
+              filter: 'drop-shadow(0 0 20px #ff69b4) drop-shadow(0 0 40px #ff1493)',
+              animation: 'bounce 2s ease-in-out infinite'
+            }}>
+              🐱
+            </div>
+            
+            <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent animate-pulse">
+              {title}
+            </h2>
+            <p className="text-cyan-300 mb-4 text-lg font-mono animate-pulse">
+              ◄ LOFI CYBERPUNK MODE ►
+            </p>
+            <p className="text-pink-400 text-sm font-mono opacity-80">
+              ~ chill vibes only ~
+            </p>
+            
+            {/* Additional Aesthetic Elements */}
+            <div className="mt-8 flex justify-center space-x-4 text-2xl animate-pulse">
+              <span className="text-pink-400">◆</span>
+              <span className="text-cyan-400">◇</span>
+              <span className="text-purple-400">◆</span>
+              <span className="text-pink-300">◇</span>
+              <span className="text-cyan-300">◆</span>
+            </div>
+          </div>
+          
+          {/* Corner Decorations */}
+          <div className="absolute top-4 left-4 text-cyan-400 font-mono text-sm opacity-60">
+            [AUDIO_ONLY]
+          </div>
+          <div className="absolute top-4 right-4 text-pink-400 font-mono text-sm opacity-60">
+            [STREAMING]
+          </div>
+          <div className="absolute bottom-4 left-4 text-purple-400 font-mono text-sm opacity-60">
+            [LOFI_MODE]
+          </div>
+          <div className="absolute bottom-4 right-4 text-cyan-300 font-mono text-sm opacity-60">
+            [CYBERPUNK]
           </div>
         </div>
       )}
@@ -83,12 +156,24 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
             variant="ghost"
             size="icon"
             onClick={() => setAudioOnly(!audioOnly)}
-            className="text-white hover:bg-white/20"
+            className="text-white hover:bg-white/20 transition-all duration-300"
           >
-            {audioOnly ? <Volume className="w-5 h-5" /> : <VolumeX className="w-5 h-5" />}
+            {audioOnly ? (
+              <Volume className="w-5 h-5 text-pink-400" />
+            ) : (
+              <VolumeX className="w-5 h-5" />
+            )}
           </Button>
         </div>
       </div>
+      
+      {/* Custom CSS for additional animations */}
+      <style jsx>{`
+        @keyframes scan {
+          0% { transform: translateY(-100vh); }
+          100% { transform: translateY(100vh); }
+        }
+      `}</style>
     </div>
   );
 };
