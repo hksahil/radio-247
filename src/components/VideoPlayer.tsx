@@ -1,7 +1,7 @@
-
 import React, { useState, useEffect } from 'react';
-import { Volume, VolumeX } from 'lucide-react';
+import { Volume, VolumeX, Play, Pause } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Slider } from '@/components/ui/slider';
 
 interface VideoPlayerProps {
   src: string;
@@ -12,6 +12,9 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
   const [showControls, setShowControls] = useState(true);
   const [controlsTimeout, setControlsTimeout] = useState<NodeJS.Timeout | null>(null);
   const [audioOnly, setAudioOnly] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(100);
 
   // Convert Google Drive download URL to embed URL
   const getEmbedUrl = (url: string) => {
@@ -25,16 +28,31 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
   const embedUrl = getEmbedUrl(src);
 
   const handleMouseMove = () => {
-    if (!audioOnly) {
-      setShowControls(true);
-      if (controlsTimeout) {
-        clearTimeout(controlsTimeout);
-      }
-      const timeout = setTimeout(() => {
-        setShowControls(false);
-      }, 3000);
-      setControlsTimeout(timeout);
+    setShowControls(true);
+    if (controlsTimeout) {
+      clearTimeout(controlsTimeout);
     }
+    const timeout = setTimeout(() => {
+      setShowControls(false);
+    }, 4000);
+    setControlsTimeout(timeout);
+  };
+
+  const handleTouchStart = () => {
+    setShowControls(true);
+    if (controlsTimeout) {
+      clearTimeout(controlsTimeout);
+    }
+    const timeout = setTimeout(() => {
+      setShowControls(false);
+    }, 6000); // Longer timeout for mobile
+    setControlsTimeout(timeout);
+  };
+
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
   useEffect(() => {
@@ -45,14 +63,25 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
     };
   }, [controlsTimeout]);
 
+  // Simulate progress for demo (since we can't control iframe video directly)
+  useEffect(() => {
+    if (isPlaying) {
+      const interval = setInterval(() => {
+        setCurrentTime(prev => (prev >= duration ? 0 : prev + 1));
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [isPlaying, duration]);
+
   return (
     <div 
       className="relative w-full h-screen bg-black overflow-hidden"
       onMouseMove={handleMouseMove}
-      onTouchStart={handleMouseMove}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchStart}
     >
       <iframe
-        src={embedUrl}
+        src={`${embedUrl}&autoplay=1`}
         className={`w-full h-full transition-opacity duration-300 ${audioOnly ? 'opacity-0' : 'opacity-100'}`}
         allow="autoplay; fullscreen"
         allowFullScreen
@@ -62,7 +91,6 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
       {/* Lofi Aesthetic Visual Overlay */}
       {audioOnly && (
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-indigo-900 to-pink-900 flex items-center justify-center overflow-hidden">
-          {/* Animated Background Elements */}
           <div className="absolute inset-0">
             {/* Floating particles */}
             <div className="absolute top-20 left-20 w-2 h-2 bg-pink-300 rounded-full opacity-60 animate-pulse" style={{ animationDelay: '0s' }}></div>
@@ -89,7 +117,7 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
               {/* Cat Body */}
               <div className="relative w-32 h-20 mx-auto">
                 {/* Cat silhouette */}
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-full transform scale-x-150">
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-full transform scale-x-150 animate-pulse">
                   {/* Cat ears */}
                   <div className="absolute -top-2 left-6 w-0 h-0 border-l-4 border-r-4 border-b-6 border-l-transparent border-r-transparent border-b-gray-800"></div>
                   <div className="absolute -top-2 right-6 w-0 h-0 border-l-4 border-r-4 border-b-6 border-l-transparent border-r-transparent border-b-gray-800"></div>
@@ -108,9 +136,6 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
                   {/* Cat tail */}
                   <div className="absolute -right-8 top-2 w-12 h-2 bg-gray-800 rounded-full transform rotate-45 animate-pulse"></div>
                 </div>
-                
-                {/* Breathing animation */}
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-800 rounded-full transform scale-x-150 animate-pulse opacity-20"></div>
               </div>
               
               {/* Sleeping Z's */}
@@ -155,11 +180,11 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
         </div>
       )}
       
-      {/* Controls Overlay */}
+      {/* Enhanced Controls Overlay - Always visible on mobile */}
       <div 
-        className={`absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30 transition-opacity duration-300 pointer-events-none ${
-          (showControls || audioOnly) ? 'opacity-100' : 'opacity-0'
-        }`}
+        className={`absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 transition-opacity duration-300 pointer-events-none ${
+          (showControls || audioOnly) ? 'opacity-100' : 'opacity-0 md:opacity-0'
+        } sm:opacity-100`}
       >
         {/* Top Bar */}
         <div className="absolute top-4 left-4 right-4 z-10 pointer-events-auto flex justify-between items-center">
@@ -176,6 +201,40 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
               <VolumeX className="w-5 h-5" />
             )}
           </Button>
+        </div>
+        
+        {/* Bottom Controls - Enhanced for Mobile */}
+        <div className="absolute bottom-0 left-0 right-0 z-10 pointer-events-auto bg-gradient-to-t from-black/90 to-transparent p-4 pb-safe">
+          {/* Progress Bar */}
+          <div className="mb-4">
+            <Slider
+              value={[currentTime]}
+              max={duration}
+              step={1}
+              onValueChange={(value) => setCurrentTime(value[0])}
+              className="w-full cursor-pointer"
+            />
+            <div className="flex justify-between text-xs text-white/70 mt-1">
+              <span>{formatTime(currentTime)}</span>
+              <span>{formatTime(duration)}</span>
+            </div>
+          </div>
+          
+          {/* Playback Controls */}
+          <div className="flex items-center justify-center space-x-6">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsPlaying(!isPlaying)}
+              className="text-white hover:bg-white/20 w-12 h-12"
+            >
+              {isPlaying ? (
+                <Pause className="w-6 h-6" />
+              ) : (
+                <Play className="w-6 h-6" />
+              )}
+            </Button>
+          </div>
         </div>
       </div>
     </div>
