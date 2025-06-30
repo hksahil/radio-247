@@ -13,13 +13,13 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
   const [controlsTimeout, setControlsTimeout] = useState<NodeJS.Timeout | null>(null);
   const [audioOnly, setAudioOnly] = useState(false);
 
-  // Convert Google Drive download URL to embed URL with autoplay
+  // Convert Google Drive download URL to embed URL
   const getEmbedUrl = (url: string) => {
     const fileIdMatch = url.match(/id=([a-zA-Z0-9_-]+)/);
     if (fileIdMatch) {
-      return `https://drive.google.com/file/d/${fileIdMatch[1]}/preview?autoplay=1&loop=1`;
+      return `https://drive.google.com/file/d/${fileIdMatch[1]}/preview`;
     }
-    return `${url}&autoplay=1&loop=1`;
+    return url;
   };
 
   const embedUrl = getEmbedUrl(src);
@@ -54,7 +54,7 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
       <iframe
         src={embedUrl}
         className={`w-full h-full transition-opacity duration-300 ${audioOnly ? 'opacity-0' : 'opacity-100'}`}
-        allow="autoplay; fullscreen; encrypted-media"
+        allow="autoplay; fullscreen"
         allowFullScreen
         frameBorder="0"
       />
@@ -168,14 +168,12 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
       </div>
       
       {/* Custom CSS for additional animations */}
-      <style>
-        {`
-          @keyframes scan {
-            0% { transform: translateY(-100vh); }
-            100% { transform: translateY(100vh); }
-          }
-        `}
-      </style>
+      <style jsx>{`
+        @keyframes scan {
+          0% { transform: translateY(-100vh); }
+          100% { transform: translateY(100vh); }
+        }
+      `}</style>
     </div>
   );
 };
