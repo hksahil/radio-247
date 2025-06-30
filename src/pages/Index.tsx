@@ -2,9 +2,8 @@
 import VideoPlayer from '@/components/VideoPlayer';
 
 const Index = () => {
-  // You can replace this with your actual video URL
-  // For now, using a placeholder - you'll need to host your MP4 file
-  const videoUrl = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4";
+  // Using your Google Drive video with the direct download URL format
+  const videoUrl = "https://drive.google.com/uc?export=download&id=1EPrXWcAD_Y2TCulPUt7-BLOPuudQIXf2";
   
   return (
     <div className="w-full h-screen">
