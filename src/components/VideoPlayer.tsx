@@ -59,86 +59,98 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
         frameBorder="0"
       />
       
-      {/* Lofi Cyberpunk Visual Overlay */}
+      {/* Lofi Aesthetic Visual Overlay */}
       {audioOnly && (
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-pink-800 to-cyan-900 flex items-center justify-center overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-indigo-900 to-pink-900 flex items-center justify-center overflow-hidden">
           {/* Animated Background Elements */}
           <div className="absolute inset-0">
-            {/* Neon Grid */}
-            <div className="absolute inset-0 opacity-20">
+            {/* Floating particles */}
+            <div className="absolute top-20 left-20 w-2 h-2 bg-pink-300 rounded-full opacity-60 animate-pulse" style={{ animationDelay: '0s' }}></div>
+            <div className="absolute top-40 right-32 w-3 h-3 bg-purple-300 rounded-full opacity-60 animate-pulse" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute bottom-32 left-40 w-1 h-1 bg-cyan-300 rounded-full opacity-60 animate-pulse" style={{ animationDelay: '2s' }}></div>
+            <div className="absolute bottom-20 right-20 w-2 h-2 bg-pink-400 rounded-full opacity-60 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+            
+            {/* Subtle grid pattern */}
+            <div className="absolute inset-0 opacity-10">
               <div className="w-full h-full" style={{
                 backgroundImage: `
-                  linear-gradient(cyan 1px, transparent 1px),
-                  linear-gradient(90deg, cyan 1px, transparent 1px)
+                  linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px)
                 `,
-                backgroundSize: '50px 50px',
-                animation: 'pulse 4s ease-in-out infinite'
+                backgroundSize: '60px 60px'
               }}></div>
             </div>
-            
-            {/* Floating Geometric Shapes */}
-            <div className="absolute top-20 left-20 w-4 h-4 bg-pink-400 opacity-60 animate-bounce" style={{ animationDelay: '0s' }}></div>
-            <div className="absolute top-40 right-32 w-6 h-6 bg-cyan-400 opacity-60 animate-bounce" style={{ animationDelay: '1s' }}></div>
-            <div className="absolute bottom-32 left-40 w-3 h-3 bg-purple-400 opacity-60 animate-bounce" style={{ animationDelay: '2s' }}></div>
-            <div className="absolute bottom-20 right-20 w-5 h-5 bg-pink-300 opacity-60 animate-bounce" style={{ animationDelay: '0.5s' }}></div>
-            
-            {/* Scanning Lines */}
-            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent h-8 animate-pulse" style={{
-              animation: 'scan 3s linear infinite'
-            }}></div>
           </div>
           
           {/* Main Content */}
           <div className="relative z-10 text-center text-white">
-            {/* Cyberpunk Cat ASCII Art */}
-            <div className="mb-8 font-mono text-pink-300 text-lg leading-tight filter drop-shadow-lg">
-              <pre className="animate-pulse">
-{`    /\\_/\\  
-   ( o.o ) 
-    > ^ <`}
-              </pre>
+            {/* Animated Cat */}
+            <div className="relative mb-8">
+              {/* Cat Body */}
+              <div className="relative w-32 h-20 mx-auto">
+                {/* Cat silhouette */}
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-800 to-gray-900 rounded-full transform scale-x-150">
+                  {/* Cat ears */}
+                  <div className="absolute -top-2 left-6 w-0 h-0 border-l-4 border-r-4 border-b-6 border-l-transparent border-r-transparent border-b-gray-800"></div>
+                  <div className="absolute -top-2 right-6 w-0 h-0 border-l-4 border-r-4 border-b-6 border-l-transparent border-r-transparent border-b-gray-800"></div>
+                  
+                  {/* Cat face */}
+                  <div className="absolute top-2 left-1/2 transform -translate-x-1/2">
+                    {/* Eyes (closed for sleeping) */}
+                    <div className="flex space-x-3 mb-1">
+                      <div className="w-2 h-1 bg-gray-700 rounded-full"></div>
+                      <div className="w-2 h-1 bg-gray-700 rounded-full"></div>
+                    </div>
+                    {/* Nose */}
+                    <div className="w-1 h-1 bg-pink-400 rounded-full mx-auto"></div>
+                  </div>
+                  
+                  {/* Cat tail */}
+                  <div className="absolute -right-8 top-2 w-12 h-2 bg-gray-800 rounded-full transform rotate-45 animate-pulse"></div>
+                </div>
+                
+                {/* Breathing animation */}
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-700 to-gray-800 rounded-full transform scale-x-150 animate-pulse opacity-20"></div>
+              </div>
+              
+              {/* Sleeping Z's */}
+              <div className="absolute -top-4 -right-8 text-gray-400 font-mono">
+                <div className="text-lg animate-bounce" style={{ animationDelay: '0s' }}>z</div>
+                <div className="text-md animate-bounce ml-2 -mt-2 opacity-70" style={{ animationDelay: '0.5s' }}>z</div>
+                <div className="text-sm animate-bounce ml-4 -mt-1 opacity-40" style={{ animationDelay: '1s' }}>z</div>
+              </div>
             </div>
             
-            {/* Neon Cat Emoji with Glow Effect */}
-            <div className="text-8xl mb-6 animate-bounce" style={{
-              filter: 'drop-shadow(0 0 20px #ff69b4) drop-shadow(0 0 40px #ff1493)',
-              animation: 'bounce 2s ease-in-out infinite'
-            }}>
-              🐱
-            </div>
-            
-            <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent animate-pulse">
+            <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
               {title}
             </h2>
-            <p className="text-cyan-300 mb-4 text-lg font-mono animate-pulse">
-              ◄ LOFI CYBERPUNK MODE ►
+            <p className="text-purple-300 mb-4 text-lg font-mono">
+              ◄ LOFI CHILL MODE ►
             </p>
             <p className="text-pink-400 text-sm font-mono opacity-80">
-              ~ chill vibes only ~
+              ~ peaceful vibes ~
             </p>
             
-            {/* Additional Aesthetic Elements */}
-            <div className="mt-8 flex justify-center space-x-4 text-2xl animate-pulse">
-              <span className="text-pink-400">◆</span>
-              <span className="text-cyan-400">◇</span>
-              <span className="text-purple-400">◆</span>
-              <span className="text-pink-300">◇</span>
-              <span className="text-cyan-300">◆</span>
+            {/* Decorative elements */}
+            <div className="mt-8 flex justify-center space-x-4 text-xl">
+              <span className="text-pink-400 animate-pulse">♪</span>
+              <span className="text-purple-400 animate-pulse" style={{ animationDelay: '0.5s' }}>♫</span>
+              <span className="text-cyan-400 animate-pulse" style={{ animationDelay: '1s' }}>♪</span>
             </div>
           </div>
           
           {/* Corner Decorations */}
-          <div className="absolute top-4 left-4 text-cyan-400 font-mono text-sm opacity-60">
+          <div className="absolute top-4 left-4 text-purple-400 font-mono text-sm opacity-60">
             [AUDIO_ONLY]
           </div>
           <div className="absolute top-4 right-4 text-pink-400 font-mono text-sm opacity-60">
-            [STREAMING]
+            [CHILLING]
           </div>
-          <div className="absolute bottom-4 left-4 text-purple-400 font-mono text-sm opacity-60">
+          <div className="absolute bottom-4 left-4 text-cyan-400 font-mono text-sm opacity-60">
             [LOFI_MODE]
           </div>
-          <div className="absolute bottom-4 right-4 text-cyan-300 font-mono text-sm opacity-60">
-            [CYBERPUNK]
+          <div className="absolute bottom-4 right-4 text-purple-300 font-mono text-sm opacity-60">
+            [PEACEFUL]
           </div>
         </div>
       )}
@@ -166,14 +178,6 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
           </Button>
         </div>
       </div>
-      
-      {/* Custom CSS for additional animations */}
-      <style jsx>{`
-        @keyframes scan {
-          0% { transform: translateY(-100vh); }
-          100% { transform: translateY(100vh); }
-        }
-      `}</style>
     </div>
   );
 };
