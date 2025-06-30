@@ -59,92 +59,86 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
         frameBorder="0"
       />
       
-      {/* Lofi Cozy Room Visual Overlay */}
+      {/* Lofi Cyberpunk Visual Overlay */}
       {audioOnly && (
-        <div className="absolute inset-0 bg-gradient-to-br from-orange-900 via-amber-800 to-yellow-900 flex items-center justify-center overflow-hidden">
-          {/* Cozy Room Background */}
-          <div className="absolute inset-0 bg-gradient-to-t from-amber-900/80 via-orange-800/60 to-yellow-700/40">
-            {/* Fireplace Glow */}
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-96 h-64 bg-gradient-radial from-orange-400/30 via-red-500/20 to-transparent rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-purple-900 via-pink-800 to-cyan-900 flex items-center justify-center overflow-hidden">
+          {/* Animated Background Elements */}
+          <div className="absolute inset-0">
+            {/* Neon Grid */}
+            <div className="absolute inset-0 opacity-20">
+              <div className="w-full h-full" style={{
+                backgroundImage: `
+                  linear-gradient(cyan 1px, transparent 1px),
+                  linear-gradient(90deg, cyan 1px, transparent 1px)
+                `,
+                backgroundSize: '50px 50px',
+                animation: 'pulse 4s ease-in-out infinite'
+              }}></div>
+            </div>
             
-            {/* Floating Embers */}
-            <div className="absolute bottom-20 left-1/3 w-2 h-2 bg-orange-400 rounded-full opacity-70 animate-bounce" style={{ animationDelay: '0s', animationDuration: '3s' }}></div>
-            <div className="absolute bottom-32 left-2/3 w-1 h-1 bg-red-400 rounded-full opacity-60 animate-bounce" style={{ animationDelay: '1s', animationDuration: '4s' }}></div>
-            <div className="absolute bottom-28 left-1/2 w-1.5 h-1.5 bg-yellow-400 rounded-full opacity-50 animate-bounce" style={{ animationDelay: '2s', animationDuration: '5s' }}></div>
+            {/* Floating Geometric Shapes */}
+            <div className="absolute top-20 left-20 w-4 h-4 bg-pink-400 opacity-60 animate-bounce" style={{ animationDelay: '0s' }}></div>
+            <div className="absolute top-40 right-32 w-6 h-6 bg-cyan-400 opacity-60 animate-bounce" style={{ animationDelay: '1s' }}></div>
+            <div className="absolute bottom-32 left-40 w-3 h-3 bg-purple-400 opacity-60 animate-bounce" style={{ animationDelay: '2s' }}></div>
+            <div className="absolute bottom-20 right-20 w-5 h-5 bg-pink-300 opacity-60 animate-bounce" style={{ animationDelay: '0.5s' }}></div>
             
-            {/* Book Shelves Silhouette */}
-            <div className="absolute left-0 top-0 w-32 h-full bg-gradient-to-r from-amber-900/60 to-transparent"></div>
-            <div className="absolute right-0 top-0 w-32 h-full bg-gradient-to-l from-amber-900/60 to-transparent"></div>
+            {/* Scanning Lines */}
+            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-400/10 to-transparent h-8 animate-pulse" style={{
+              animation: 'scan 3s linear infinite'
+            }}></div>
           </div>
           
-          {/* Main Content - Sleeping Cat */}
-          <div className="relative z-10 text-center">
-            {/* Sleeping Cat with Throbbing Heart */}
-            <div className="relative mb-8">
-              {/* Cat Body */}
-              <div className="text-8xl mb-4 filter drop-shadow-lg">
-                😴
-              </div>
-              
-              {/* Throbbing Heart */}
-              <div className="absolute -top-4 -right-8 text-4xl animate-pulse" style={{
-                animation: 'pulse 1.5s ease-in-out infinite'
-              }}>
-                💤
-              </div>
-              
-              {/* Heart Beat Indicator */}
-              <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
-                <div className="w-3 h-3 bg-pink-400 rounded-full animate-ping" style={{ animationDelay: '0s' }}></div>
-                <div className="w-2 h-2 bg-red-400 rounded-full animate-ping" style={{ animationDelay: '0.3s' }}></div>
-                <div className="w-3 h-3 bg-pink-400 rounded-full animate-ping" style={{ animationDelay: '0.6s' }}></div>
-              </div>
+          {/* Main Content */}
+          <div className="relative z-10 text-center text-white">
+            {/* Cyberpunk Cat ASCII Art */}
+            <div className="mb-8 font-mono text-pink-300 text-lg leading-tight filter drop-shadow-lg">
+              <pre className="animate-pulse">
+{`    /\\_/\\  
+   ( o.o ) 
+    > ^ <`}
+              </pre>
             </div>
             
-            {/* Cozy Text */}
-            <h2 className="text-3xl font-bold mb-2 text-amber-200 animate-pulse">
+            {/* Neon Cat Emoji with Glow Effect */}
+            <div className="text-8xl mb-6 animate-bounce" style={{
+              filter: 'drop-shadow(0 0 20px #ff69b4) drop-shadow(0 0 40px #ff1493)',
+              animation: 'bounce 2s ease-in-out infinite'
+            }}>
+              🐱
+            </div>
+            
+            <h2 className="text-3xl font-bold mb-2 bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent animate-pulse">
               {title}
             </h2>
-            <p className="text-orange-300 mb-4 text-lg font-serif">
-              ◈ Cozy Lofi Vibes ◈
+            <p className="text-cyan-300 mb-4 text-lg font-mono animate-pulse">
+              ◄ LOFI CYBERPUNK MODE ►
             </p>
-            <p className="text-yellow-400 text-sm font-serif opacity-80">
-              ~ peaceful moments ~
+            <p className="text-pink-400 text-sm font-mono opacity-80">
+              ~ chill vibes only ~
             </p>
             
-            {/* Fireplace Visual */}
-            <div className="mt-12 relative">
-              <div className="text-6xl animate-pulse" style={{ animation: 'pulse 2s ease-in-out infinite' }}>
-                🔥
-              </div>
-              <div className="absolute -left-8 top-2 text-4xl animate-pulse" style={{ animationDelay: '0.5s' }}>
-                🔥
-              </div>
-              <div className="absolute -right-8 top-2 text-4xl animate-pulse" style={{ animationDelay: '1s' }}>
-                🔥
-              </div>
-            </div>
-            
-            {/* Cozy Elements */}
-            <div className="mt-6 flex justify-center space-x-6 text-2xl">
-              <span className="text-amber-400 animate-pulse">📚</span>
-              <span className="text-orange-400 animate-pulse" style={{ animationDelay: '0.5s' }}>☕</span>
-              <span className="text-yellow-400 animate-pulse" style={{ animationDelay: '1s' }}>🕯️</span>
+            {/* Additional Aesthetic Elements */}
+            <div className="mt-8 flex justify-center space-x-4 text-2xl animate-pulse">
+              <span className="text-pink-400">◆</span>
+              <span className="text-cyan-400">◇</span>
+              <span className="text-purple-400">◆</span>
+              <span className="text-pink-300">◇</span>
+              <span className="text-cyan-300">◆</span>
             </div>
           </div>
           
           {/* Corner Decorations */}
-          <div className="absolute top-4 left-4 text-amber-400 font-serif text-sm opacity-60">
-            [COZY_MODE]
+          <div className="absolute top-4 left-4 text-cyan-400 font-mono text-sm opacity-60">
+            [AUDIO_ONLY]
           </div>
-          <div className="absolute top-4 right-4 text-orange-400 font-serif text-sm opacity-60">
-            [FIREPLACE]
+          <div className="absolute top-4 right-4 text-pink-400 font-mono text-sm opacity-60">
+            [STREAMING]
           </div>
-          <div className="absolute bottom-4 left-4 text-yellow-400 font-serif text-sm opacity-60">
-            [PEACEFUL]
+          <div className="absolute bottom-4 left-4 text-purple-400 font-mono text-sm opacity-60">
+            [LOFI_MODE]
           </div>
-          <div className="absolute bottom-4 right-4 text-amber-300 font-serif text-sm opacity-60">
-            [LOFI_VIBES]
+          <div className="absolute bottom-4 right-4 text-cyan-300 font-mono text-sm opacity-60">
+            [CYBERPUNK]
           </div>
         </div>
       )}
@@ -165,13 +159,21 @@ const VideoPlayer = ({ src, title = "Video Player" }: VideoPlayerProps) => {
             className="text-white hover:bg-white/20 transition-all duration-300"
           >
             {audioOnly ? (
-              <Volume className="w-5 h-5 text-amber-400" />
+              <Volume className="w-5 h-5 text-pink-400" />
             ) : (
               <VolumeX className="w-5 h-5" />
             )}
           </Button>
         </div>
       </div>
+      
+      {/* Custom CSS for additional animations */}
+      <style jsx>{`
+        @keyframes scan {
+          0% { transform: translateY(-100vh); }
+          100% { transform: translateY(100vh); }
+        }
+      `}</style>
     </div>
   );
 };
